@@ -1,6 +1,23 @@
 /** @format */
+import { useState } from "react";
+import axios from 'axios'
 import { Link } from "react-router-dom";
+
+
 const SignUp = () => {
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post('http://localhost:4000/api/signup', { email, password})
+      console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="w-full h-screen">
       <img
@@ -13,21 +30,25 @@ const SignUp = () => {
         <div className="max-w-[450px] h-[600px] mx-auto bg-black/75 text-white">
           <div className="max-w-[320px] mx-auto py-16">
             <h1 className="text-3xl font-bold">Sign Up</h1>
-            <form className="w-full flex flex-col py-4">
+            <form onSubmit={handleSubmit} className="w-full flex flex-col py-4">
               <input
                 className="p-3 my-2 bg-gray-700 rouded"
                 type="email"
                 placeholder="Email"
                 autoComplete="email"
+                onChange={(e) => {setEmail(e.target.value)}}
+                value = {email}
               />
               <input
                 className="p-3 my-2 bg-gray-700 rouded"
                 type="password"
                 placeholder="Password"
                 autoComplete="current-password"
+                onChange={(e) => {setPassword(e.target.value)}}
+                value = {password}
               />
               <button className="bg-red-600 py-3 my-6 rounded font-bold">
-              Sign Up
+                Sign Up
               </button>
               <div className="flex justify-between items-center text-sm text-gray-600">
                 <p>
@@ -37,7 +58,9 @@ const SignUp = () => {
                 <p>Need Help?</p>
               </div>
               <p className="py-8">
-                <span className="text-gray-600">Already subscribed to Netflix?</span>
+                <span className="text-gray-600">
+                  Already subscribed to Netflix?
+                </span>
                 <Link to="/login"> Sign In</Link>
               </p>
             </form>
