@@ -2,21 +2,25 @@
 import { useState } from "react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post('http://localhost:4000/api/signup', { email, password})
-      console.log(res.data)
+      navigate('/welcome')
+      console.log(res)
     } catch (error) {
       console.log(error)
     }
+    setEmail('')
+    setPassword('')
   }
   return (
     <div className="w-full h-screen">

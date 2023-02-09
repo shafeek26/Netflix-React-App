@@ -1,6 +1,24 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = axios.post('http://localhost:4000/api/login', { email, password})
+      navigate('/')
+      console.log(res);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="w-full h-screen">
       <img
@@ -13,18 +31,22 @@ const Login = () => {
         <div className="max-w-[450px] h-[600px] mx-auto bg-black/75 text-white">
           <div className="max-w-[320px] mx-auto py-16">
             <h1 className="text-3xl font-bold">Sign In</h1>
-            <form className="w-full flex flex-col py-4">
+            <form className="w-full flex flex-col py-4" onSubmit={handleSubmit}>
               <input
                 className="p-3 my-2 bg-gray-700 rouded"
                 type="email"
                 placeholder="Email"
                 autoComplete="email"
+                value={email}
+                onChange = {(e) => { setEmail(e.target.value)}}
               />
               <input
                 className="p-3 my-2 bg-gray-700 rouded"
                 type="password"
                 placeholder="Password"
                 autoComplete="current-password"
+                value={password}
+                onChange = {(e) => { setPassword(e.target.value)}}
               />
               <button className="bg-red-600 py-3 my-6 rounded font-bold">
                 Sign In
