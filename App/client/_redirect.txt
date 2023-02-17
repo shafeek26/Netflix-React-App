@@ -1,2 +1,0 @@
-# Redirect requests for /old-page to /new-page
-/index.html 200
